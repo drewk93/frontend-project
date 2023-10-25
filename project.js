@@ -1,68 +1,69 @@
-function extractMoves(pgn) {
-    const lines = pgn.trim().split('\n');
-    const movesLine = lines.filter(line => line.trim() !== '' && !line.startsWith('[')).pop();
-    return movesLine;
-}
-
-loadState()
-
-function loadState(){
-    $.get('https://api.chess.com/pub/player/erik/games/2009/10/', function(data){
-    const pgn = data.games[0].pgn;
-    const moves = extractMoves(pgn);
-    console.log(moves); // This will log only the moves.
-    // chess.js load state and PGN notation conversion to FEN
-    let gameState = new Chess()
-    gameState.load_pgn(moves)
-    let fen = gameState.fen()
-    let board1 = ChessBoard('board1', fen)
-
-    
-}, 'json').fail(function(error) {
-    console.error("Request failed:", error);
-});
-}
 
 
 
-// $.get('https://api.chess.com/pub/player/erik/games/2009/10/', function(data){
-//     const pgn = data.games[0].pgn;
-//     const moves = extractMoves(pgn);
-//     console.log(moves); // This will log only the moves.
-//     // chess.js load state and PGN notation conversion to FEN
-//     let gameState = new Chess()
-//     gameState.load_pgn(moves)
-//     let fen = gameState.fen()
-//     let board1 = chessBoard('board1', fen)
 
-    
-// }, 'json').fail(function(error) {
-//     console.error("Request failed:", error);
-// });
+/* 
+
+Chess.Com API Endpoints: 
+
+1) Looking up Archive of Games: https://api.chess.com/pub/player/{username}/games/archives
+2) Looking up games by year and month: https://api.chess.com/pub/player/{username}/games/2009/10/
+3) *Looking up games PGN by year and month: https://api.chess.com/pub/player/erik/games/2009/10/pgn''
+  // Note that the PGN for 3) is not a JSON
+
+TO DO 
+
+1) Establish Methodology
+
+2) Functionality 
+    - List Archive games as a list for each user.
+        Requires: input field, submit button, div to contain paragraphs with breaks.
 
 
-// let config = {
-//     position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
+*/
+
+
+
+
+// function extractMoves(pgn) {
+//     const lines = pgn.trim().split('\n');
+//     const movesLine = lines.filter(line => line.trim() !== '' && !line.startsWith('[')).pop();
+//     return movesLine;
 // }
 
-// var chess = new Chess(); // Create a new instance of the chess.js game object
-// chess.load_pgn('1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Be3 Bg7 5. Qd2 c6 6. Nf3 Bg4 7. Bc4 b5 8. Bb3 a5 9. a3 Nbd7 10. Ng5 O-O 11. h3 Bh5 12. g4 1-0');
+// loadState()
 
-// var fen = chess.fen(); // Get the FEN string of the current position
-
-
-// var board1 = Chessboard('board1', fen)
-
-
-
-// $.get('https://api.chess.com/pub/titled/GM', function(data){
-//     for (let i = 0; i < data.players.length; i++){
-//         if (data.players[i].includes('hikaru')){
-//             console.log(data.players[i]);
-//         }
-//     }
-// }, 'json').fail(function(error) {
+// function loadState(){
+//     $.get('https://api.chess.com/pub/player/erik/games/archives', function(data){
+//     console.log(data)
+//     // const pgn = data.games[0].pgn;
+//     // const moves = extractMoves(pgn);
+//     // console.log(moves); // This will log only the moves.
+//     // // chess.js load state and PGN notation conversion to FEN
+//     // let gameState = new Chess()
+//     // gameState.load_pgn(moves)
+//     // let fen = gameState.fen()
+//     // let board1 = ChessBoard('board1', fen)
+    
+// },'json').fail(function(error) {
 //     console.error("Request failed:", error);
 // });
+// }
 
-// https://api.chess.com/pub/titled/GM
+$(document).ready(function() {
+    loadEventListeners()
+});
+
+function loadEventListeners(){
+
+const $input = $('input');
+const $submit = $('#submit');
+
+    $submit.on('click', function(e){
+        const inputVal = $("input[name='search']").val().trim()
+        const url = `https://api.chess.com/pub/player/${inputVal}/games/archives`
+        $.get(url, function(data){
+            console.log(data)
+        })
+    })
+}
