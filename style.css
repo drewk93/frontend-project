@@ -9,6 +9,36 @@
     
 }
 
-.archive {
+#main {
+    
+}
+
+#board1 {
+    
+}
+
+#archiveContainer {
     border: 5px solid red;
+}
+
+#scrollContainer {
+    display: flex;
+}
+
+#archiveScroll{
+    height: 300px; 
+    width: 50%;   
+    overflow-y: scroll;
+    border: 1px solid green;
+}
+
+#gameScroll{
+    height: 300px; 
+    width: 50%;   
+    overflow-y: scroll;
+    border: 1px solid green;
+}
+
+#gameList{
+   list-style-type: none;
 }
