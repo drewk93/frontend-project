@@ -14,17 +14,27 @@
   crossorigin="anonymous"></script>
     
   <link rel="stylesheet"
-  href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
-  integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU"
-  crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
+  href="chessboard-1.0.0.css">
+<link rel="stylesheet" type="text/css" href="style.css">
 
 
 </head>
     <body id = "body">
         
         <main> 
-            <div id="board1" style="width: 400px"></div>
+            <div class="boardContainer" id="boardContainer">
+            <div id="board2" style="width 500px"></div>
+                <div id="board1" style="width: 500px;"></div>
+                <div id="gameNotation">
+            
+                </div>
+            </div>
+            <div class="container" id="btnContainer">
+                <button></button>
+                <button></button>
+                <button></button>
+                <button></button>
+            </div>
             <h1>search chess.com usernames</h1>
             <input id="input" type="text" name="search" placeholder = "Username">
             <button id="submit">Search</button>
@@ -51,6 +61,4 @@
         integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
         crossorigin="anonymous"></script>
 
-<script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
-        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
-        crossorigin="anonymous"></script>
+<script chessboard-1.0.0.js"></script>

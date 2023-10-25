@@ -19,66 +19,20 @@ TO DO
 2) Functionality 
     - List Archive games as a list for each user.
         Requires: input field, submit button, div to contain paragraphs with breaks.
-
+    - Allow user to drag pieces and cycle through moves of the game.
 
 */
 
-
-
-
-function extractMoves(pgn) {
-    const lines = pgn.trim().split('\n');
-    const movesLine = lines.filter(line => line.trim() !== '' && !line.startsWith('[')).pop();
-    return movesLine;
-}
-
-const archiveList = []
-
-// extractPGN()
-
-// function extractPGN(){
-//     $.get('https://api.chess.com/pub/player/erik/games/2009/10/', function(data){
-//     console.log(data.games)
-//     const pgn = data.games[0].pgn;
-//     const moves = extractMoves(pgn);
-//     console.log(moves); // This will log only the moves.
-//     // chess.js load state and PGN notation conversion to FEN
-//     let gameState = new Chess()
-//     gameState.load_pgn(moves)
-//     let fen = gameState.fen()
-//     let board1 = ChessBoard('board1', fen)
-    
-// },'json').fail(function(error) {
-//     console.error("Request failed:", error);
-// });
-// }
-
-// extractPGN()
-
-// function extractPGN(){
-//     $.get('https://api.chess.com/pub/player/erik/games/2009/10/', function(data){
-//     console.log(data.games)
-//     const pgn = data.games[0].pgn;
-//     const moves = extractMoves(pgn);
-//     console.log(moves); // This will log only the moves.
-//     // chess.js load state and PGN notation conversion to FEN
-//     let gameState = new Chess()
-//     gameState.load_pgn(moves)
-//     let fen = gameState.fen()
-//     let board1 = ChessBoard('board1', fen)
-    
-// },'json').fail(function(error) {
-//     console.error("Request failed:", error);
-// });
-// }
+// Imported functionality
 
 
 const board = ChessBoard('board1')
-let loadedPGN = {}
 
 var config = {
-    showNotation: false,
+
 }
+
+  
 
 $(document).ready(function() {
     loadEventListeners()
@@ -101,6 +55,14 @@ const $gameList = $("#gameList");
 
 }
 
+function extractMoves(pgn) {
+    const lines = pgn.trim().split('\n');
+    const movesLine = lines.filter(line => line.trim() !== '' && !line.startsWith('[')).pop();
+    return movesLine;
+}
+
+
+
 function loadGame(){    
         
         const userName = $("input[name='search']").val().trim();
@@ -121,7 +83,7 @@ function loadGame(){
             let gameState = new Chess()
             gameState.load_pgn(moves)
             let fen = gameState.fen()
-            loadedPosition = fen;
+            config.pgn = moves;
             board1 = ChessBoard('board1', fen)
         })
         }            

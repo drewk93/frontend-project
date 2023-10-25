@@ -17,6 +17,25 @@
     
 }
 
+#gameNotation {
+    height: 100%;
+    width: 50%;
+    border: 5px solid green;
+}
+
+#boardContainer {
+    display: flex;
+    justify-content: center;
+    border: 3px solid red;
+    height: 4000
+}
+
+
+
+#btnContainer {
+    border: 3px solid blue;
+}
+
 #archiveContainer {
     border: 5px solid red;
 }
