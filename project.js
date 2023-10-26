@@ -34,7 +34,8 @@ var config = {
 
 let gameState = new Chess()
 const board = ChessBoard('board1', config)
-let loadedPGN = {}
+let moveOrder = ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR']
+let moveOrderIndex = moveOrder.length-1
 
 
 // function onDragStart (source, piece, position, orientation) {
@@ -44,11 +45,11 @@ let loadedPGN = {}
 // }
 
 function onChange (oldPos, newPos) {
-  console.log('Position changed:')
-  console.log('Old position: ' + Chessboard.objToFen(oldPos))
-  console.log('New position: ' + Chessboard.objToFen(newPos))
-  gameState.fen = Chessboard.objToFen(newPos) 
-  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  // make Chess.js current FEN equal to Chessboard.js FEN
+  gameState.fen = Chessboard.objToFen(newPos)
+  // push FEN to moveOrder array
+  moveOrder.push(gameState.fen)
+  moveOrderIndex++
 }
 
 
@@ -63,7 +64,7 @@ const $archiveList = $("#archiveList");
 const $gameList = $("#gameList");
 const $prevBtn = $("#prevBtn");
 const $nextBtn = $("#nextBtn");
-
+const $newGame = $("#newGame");
     $submit.on('click', getArchive)
    
     $archiveList.on('click', '.date-item', function() {
@@ -73,18 +74,39 @@ const $nextBtn = $("#nextBtn");
 
     $gameList.on('click','.game-item',loadGame)
     $prevBtn.on('click',goBack)
+    $nextBtn.on('click',goForward)
+    $newGame.on('click', newGame)
+
 
 }
 
 function goBack() {
-    gameState.undo();
-    updateBoard()
+    moveOrderIndex--
+    let prevMove = moveOrder[moveOrderIndex];
+    if (prevMove.length === 0){
+        return;
+    }
+    console.log(prevMove)
+    config.position = (prevMove)
+    Chessboard('board1',config)
 }
 
-function updateBoard() {
-    board.position(gameState.fen());
+function goForward(){
+    moveOrderIndex++
+    let nextMove = moveOrder[moveOrderIndex];
+    if (nextMove.length === 0){
+        return;
+    }
+    config.position = (nextMove)
+    Chessboard('board1',config)
 }
 
+function newGame(){
+    moveOrder = ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR']
+    moveOrderIndex = moveOrder.length-1
+    config.position = 'start'
+    Chessboard('board1', config)
+}
 
 
 function extractMoves(pgn) {
