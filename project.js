@@ -27,7 +27,6 @@ TO DO
 var config = {
     draggable: true,
     dropOffBoard: 'snapback',
-    position: 'start',
     onChange: onChange
     // onDragStart: onDragStart
 }
@@ -35,7 +34,7 @@ var config = {
 let gameState = new Chess()
 const board = ChessBoard('board1', config)
 let moveOrder = ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR']
-let moveOrderIndex = moveOrder.length-1
+let moveOrderIndex = 0;
 
 
 // function onDragStart (source, piece, position, orientation) {
@@ -137,15 +136,54 @@ function loadGame(){
             // extract the move order PGN
             const moves = extractMoves(pgn)
             // initialize gameState and pass 'moves' in.
+            console.log(gameState.fen())
             gameState.load_pgn(moves)
             // Export final FEN state to chessboard.js
-            let fen = gameState.fen()
-            config.position = fen
+            let gameMoves = movesToFenArray(parsePGNIntoMoves(gameState.pgn()))
+            gameMoves.forEach(fen => {
+                moveOrder.push(fen)
+            })
+
+            config.position = moveOrder[0]
             ChessBoard('board1', config)
             // Pass
-            console.log(gameState.pgn())
+            
+              
+           
         })
         }            
+}
+
+function movesToFenArray(moves) {
+    var game = new Chess();
+    var fens = [];
+
+
+    for (var move of moves) {
+        game.move(move);
+        fens.push(game.fen());
+    }
+
+    return fens;
+}
+
+
+console.log(moveOrder)
+
+function parsePGNIntoMoves(pgn) {
+    // Splitting the string by spaces and filtering out empty strings
+    let tokens = pgn.split(/\s+/).filter(token => token.trim() !== '');
+
+    let moves = [];
+
+    // Looping through each token
+    tokens.forEach(token => {
+        // Filtering out move numbers (e.g., '1.', '2.', etc.)
+        if (!token.includes('.')) {
+            moves.push(token);
+        }
+    });
+    return moves;
 }
 
 
