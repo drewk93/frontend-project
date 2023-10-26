@@ -23,15 +23,16 @@
         
         <main> 
             <div class="boardContainer" id="boardContainer">
-            <div id="board2" style="width 500px"></div>
+            <!-- <div id="board2" style="width 500px"></div> -->
                 <div id="board1" style="width: 500px;"></div>
+                <div id="myBoard" style="width: 500px"></div>
                 <div id="gameNotation">
             
                 </div>
             </div>
             <div class="container" id="btnContainer">
-                <button></button>
-                <button></button>
+                <button id = "prevBtn">Previous</button>
+                <button id = "nextBtn">Next</button>
                 <button></button>
                 <button></button>
             </div>
@@ -55,10 +56,9 @@
     </body>
 </html>
 
-<script defer src = "project.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
         crossorigin="anonymous"></script>
-
-<script chessboard-1.0.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+<script src="chessboard-1.0.0.js"></script>
+<script src="project.js"></script>

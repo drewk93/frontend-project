@@ -24,15 +24,33 @@ TO DO
 */
 
 // Imported functionality
-
-
-const board = ChessBoard('board1')
-
 var config = {
-
+    draggable: true,
+    dropOffBoard: 'snapback',
+    position: 'start',
+    onChange: onChange
+    // onDragStart: onDragStart
 }
 
-  
+let gameState = new Chess()
+const board = ChessBoard('board1', config)
+let loadedPGN = {}
+
+
+// function onDragStart (source, piece, position, orientation) {
+//     gameState.fen()
+//     console.log(config.position)
+//     updateBoard()
+// }
+
+function onChange (oldPos, newPos) {
+  console.log('Position changed:')
+  console.log('Old position: ' + Chessboard.objToFen(oldPos))
+  console.log('New position: ' + Chessboard.objToFen(newPos))
+  gameState.fen = Chessboard.objToFen(newPos) 
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+}
+
 
 $(document).ready(function() {
     loadEventListeners()
@@ -43,7 +61,9 @@ const $input = $('input');
 const $submit = $('#submit');
 const $archiveList = $("#archiveList");
 const $gameList = $("#gameList");
-    
+const $prevBtn = $("#prevBtn");
+const $nextBtn = $("#nextBtn");
+
     $submit.on('click', getArchive)
    
     $archiveList.on('click', '.date-item', function() {
@@ -52,8 +72,20 @@ const $gameList = $("#gameList");
     });
 
     $gameList.on('click','.game-item',loadGame)
+    $prevBtn.on('click',goBack)
 
 }
+
+function goBack() {
+    gameState.undo();
+    updateBoard()
+}
+
+function updateBoard() {
+    board.position(gameState.fen());
+}
+
+
 
 function extractMoves(pgn) {
     const lines = pgn.trim().split('\n');
@@ -78,13 +110,18 @@ function loadGame(){
             const url = `https://api.chess.com/pub/player/${userName}/games/${extractedDate}/`;
 
         $.get(url, function(data) {
-            const pgn = data.games[index].pgn;
+            // grab the PGN from the Chess game
+            const pgn = data.games[index].pgn
+            // extract the move order PGN
             const moves = extractMoves(pgn)
-            let gameState = new Chess()
+            // initialize gameState and pass 'moves' in.
             gameState.load_pgn(moves)
+            // Export final FEN state to chessboard.js
             let fen = gameState.fen()
-            config.pgn = moves;
-            board1 = ChessBoard('board1', fen)
+            config.position = fen
+            ChessBoard('board1', config)
+            // Pass
+            console.log(gameState.pgn())
         })
         }            
 }
