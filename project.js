@@ -93,7 +93,7 @@ function goBack() {
 function goForward(){
     moveOrderIndex++
     let nextMove = moveOrder[moveOrderIndex];
-    if (nextMove.length === 0){
+    if (nextMove === undefined){
         return;
     }
     config.position = (nextMove)
