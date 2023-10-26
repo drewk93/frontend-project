@@ -1,9 +1,4 @@
-
-
-
-
 /* 
-
 Chess.Com API Endpoints: 
 
 ?) Looking up games by year and month: https://api.chess.com/pub/player/{username}/games/
@@ -20,10 +15,8 @@ TO DO
     - List Archive games as a list for each user.
         Requires: input field, submit button, div to contain paragraphs with breaks.
     - Allow user to drag pieces and cycle through moves of the game.
-
 */
 
-// Imported functionality
 var config = {
     draggable: true,
     dropOffBoard: 'snapback',
@@ -36,12 +29,6 @@ const board = ChessBoard('board1', config)
 let moveOrder = ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR']
 let moveOrderIndex = 0;
 
-
-// function onDragStart (source, piece, position, orientation) {
-//     gameState.fen()
-//     console.log(config.position)
-//     updateBoard()
-// }
 
 function onChange (oldPos, newPos) {
   // make Chess.js current FEN equal to Chessboard.js FEN
@@ -75,7 +62,6 @@ const $newGame = $("#newGame");
     $prevBtn.on('click',goBack)
     $nextBtn.on('click',goForward)
     $newGame.on('click', newGame)
-
 
 }
 
@@ -144,9 +130,10 @@ function loadGame(){
                 moveOrder.push(fen)
             })
 
+            // Set board position to initial starting position
             config.position = moveOrder[0]
             ChessBoard('board1', config)
-            // Pass
+            
             
               
            
@@ -200,7 +187,7 @@ function getGameList(date) {
     const url = `https://api.chess.com/pub/player/${userName}/games/${date}/`;
 
     $.get(url, function(data) {
-        $archiveName.append(`<h3>User: ${userName} games of ${date}</h3>`);
+       
         data.games.forEach((game, index) => {
             const dateRegex = /\[Date "(\d{4}\.\d{2}\.\d{2})"\]/;
             const match = game.pgn.match(dateRegex);
@@ -237,7 +224,6 @@ function getArchive(e){
 
     const url = `https://api.chess.com/pub/player/${userName}/games/archives`
     $.get(url, function(data){
-        $archiveName.append(`<h3>User: ${userName}<h3>`)
         data.archives.forEach((item) => {
         let parts = item.split("games/")
                 if (parts.length > 1){

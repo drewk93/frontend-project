@@ -9,48 +9,61 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
     crossorigin="anonymous"></script>
     <script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous"></script>
-    
-  <link rel="stylesheet"
-  href="chessboard-1.0.0.css">
-<link rel="stylesheet" type="text/css" href="style.css">
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
 
-
+    <link rel="stylesheet"
+    href="chessboard-1.0.0.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
     <body id = "body">
         
         <main> 
-            <div class="boardContainer" id="boardContainer">
-            <!-- <div id="board2" style="width 500px"></div> -->
-                <div id="board1" style="width: 500px;"></div>
-                <div id="myBoard" style="width: 500px"></div>
-                <div id="gameNotation">
+            <div class="masterContainer" id="masterContainer">
+                <div class="boardContainer" id="boardContainer">
+                    <div id="board1" style="width: 700px;"></div>
+                 </div>
+                    <div class="archive" id = "archiveContainer">
+                        <h1 id = "archiveHeader">Archive</h1>
+                        
+                            <input id="input" type="text" name="search" placeholder = "Username">
+                            <button id="submit">Search</button>
+
+                        
+                            <div class="archive" id="scrollContainer">
+                                <div class="archive" id = "archiveName"></div>
+                                <div class="archive" id = "archiveScroll">
+                                    <ol id = "archiveList"></ol>
+                                </div>
+                                <div class="archive" id="gameScroll">
+                                    <ul id = "gameList"></ul>
+                                </div>
+                            </div>
+                        
+                    </div>
+              </div>
+              <div class="container" id="bottomContainer">
+                <div class="container" id="btnContainer">
+
+                    <button class="btn previous" id ="prevBtn">&#8249; Previous</button>
+                    <button class="btn next" id = "nextBtn"> Next &#8250;</button>
+              
+                    <button id = "newGame" class="btn">New Game</button>
+                    <button id = "firstMove" class="btn">First Move</button>
+                    <button id = "lastMove" class="btn">Last Move</button>
+                </div>
+                <div class="container" id="notationContainer">
+                    <div class="container" id="notationActual">
+                        <b><p>['d4', 'Nf6', 'c4', 'b6', 'Nc3', 'Bb7', 'f3', 'e6', 'e4', 'd5', 'e5', 'Nfd7', 'cxd5', 'exd5', 'Bd3', 'c5', 'dxc5', 'Bxc5', 'Qe2', 'Nc6', 'f4', 'Nd4', 'Qg4', 'Qe7', 'Nge2', 'Nxe2', 'Nxe2', 'Bb4+', 'Kf1', 'O-O', 'a3', 'f6', 'axb4', 'fxe5', 'Bf5', 'Nf6', 'Qh3', 'g6', 'Be6+', 'Kh8', 'f5', 'Ne4', 'Kg1', 'Qxb4', 'Bh6', 'Qxb2', 'Re1', 'Qb4', 'Rf1', 'Rf6', 'g4', 'Ba6', 'Qe3', 'gxf5', 'Qg5', 'Nxg5', 'Bxg5', 'Qxg4+', 'Ng3', 'Qxg5', 'Rxf5', 'Rxf5', 'Bxf5', 'Qd2', 'h4', 'Rg8', 'Rh3', 'Bd3', 'Be6', 'Rxg3+', 'Rxg3', 'Qe1+', 'Kh2', 'Qxg3+', 'Kxg3', 'd4', 'Kf3', 'a5', 'Bd5', 'a4', 'Kg4', 'a3', 'Kg5', 'Kg7', 'h5', 'h6+', 'Kg4', 'b5', 'Kf3', 'b4', 'Kf2', 'e4', 'Ke1', 'e3', 'Kd1', 'Kf6', 'Kc1', 'Ke5', 'Bb3', 'Bf5', …]</p></b>
+                        
+                    </div>
+
+                </div>        
+              </div>
             
-                </div>
-            </div>
-            <div class="container" id="btnContainer">
-                <button id = "prevBtn">Previous</button>
-                <button id = "nextBtn">Next</button>
-                <button id = "newGame">New Game</button>
-                <button></button>
-            </div>
-            <h1>search chess.com usernames</h1>
-            <input id="input" type="text" name="search" placeholder = "Username">
-            <button id="submit">Search</button>
-            <div class="archive" id = "archiveContainer">
-                <h1>Archive</h1>
-                <div class="archive" id="scrollContainer">
-                    <div class="archive" id = "archiveName"></div>
-                    <div class="archive" id = "archiveScroll">
-                        <ol id = "archiveList"></ol>
-                    </div>
-                    <div class="archive" id="gameScroll">
-                        <ul id = "gameList"></ul>
-                    </div>
-                </div>
-            </div>
+             </div> 
         </main>
         
     </body>
