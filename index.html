@@ -25,12 +25,20 @@
                 <div class="boardContainer" id="boardContainer">
                     <div id="board1" style="width: 700px;"></div>
                  </div>
-                    <div class="archive" id = "archiveContainer">
-                        <h1 id = "archiveHeader">Chess.com Game Archive</h1>
-                        
-                            <input id="input" type="text" name="search" placeholder = "Username">
-                            <button id="submit">Search</button>
+                 
 
+                    <div class="archive" id = "archiveContainer">
+                        <div class="container" id = "headerContainer">
+                            <img src="img/strategy.png" alt="strategy.png" width="200" height="200">
+                            <div class="container"> <h1 id = "archiveHeader">Chess.com <br>Game Archive</h1>
+                        </div></div>
+                                               
+                            <input id="input" type="text" name="search" placeholder = "Search Username">
+                            <button id="submit">Search</button>                            
+                            <div id = "scrollHeader">
+                                <p>Year</p>
+                                <p>Month</p>
+                            </div>
                         
                             <div class="archive" id="scrollContainer">
                                 <!-- <div class="header" id = "archiveHeader">ARCHIVE</div> -->
@@ -46,11 +54,9 @@
               </div>
               <div class="container" id="bottomContainer">
                 <div class="container" id="btnContainer">
-
-                    <button class="btn previous" id ="prevBtn">&#8249; Previous</button>
-                    <button class="btn next" id = "nextBtn"> Next &#8250;</button>
-              
                     <button id = "newGame" class="btn">New Game</button>
+                    <button class="btn previous" id ="prevBtn">&#8249; Previous Move</button>
+                    <button class="btn next" id = "nextBtn"> Next Move &#8250;</button>            
                     <button id = "firstMove" class="btn">First Move</button>
                     <button id = "lastMove" class="btn">Last Move</button>
                     <button id = "flipBoard" class="btn">Flip Board</button>

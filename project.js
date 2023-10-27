@@ -22,7 +22,8 @@ TO DO
 var config = {
     draggable: true,
     dropOffBoard: 'snapback',
-    onChange: onChange
+    onChange: onChange,
+    orientation: 'white'
     // onDragStart: onDragStart
 }
 
@@ -53,27 +54,32 @@ function goBack() {
     $notationActual[0].lastElementChild.remove()
     }
    
-    config.position = (prevMove)
+    config.position = prevMove;
     Chessboard('board1',config)
 }
 
 function goForward(){
-    $notationActual = $('#notationActual')
-    moveOrderIndex++
+    $notationActual = $('#notationActual');
+    moveOrderIndex++;
     let nextMove = moveOrder[moveOrderIndex];
     if (nextMove === undefined){
         return;
     }
-    if(moveNotation.length !== 0){
+    if(moveNotation[moveOrderIndex] !== moveOrder.length){
         $notationActual.append(`<b>${moveOrderIndex}. ${moveNotation[moveOrderIndex]}</b> `);
     }
-    config.position = (nextMove)
-    Chessboard('board1',config)
+    config.position = nextMove;
+    Chessboard('board1', config);
 }
 
 function newGame(){
+    $notationActual = $('#notationActual')
     moveOrder = ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR']
     moveOrderIndex = moveOrder.length-1
+    while (moveNotation.length > 0){
+        $notationActual[0].lastElementChild.remove()
+        moveNotation.pop()
+    }
     config.position = 'start'
     Chessboard('board1', config)
 }
@@ -107,7 +113,7 @@ const $nextBtn = $("#nextBtn");
 const $newGame = $("#newGame");
 const $firstMove = $("#firstMove");
 const $lastMove = $("#lastMove");
-
+const $flipBoard = $("#flipBoard")
     $submit.on('click', getArchive)
     $archiveList.on('click', '.date-item', function() {
         const dateItem = $(this).text();
@@ -120,8 +126,18 @@ const $lastMove = $("#lastMove");
     $newGame.on('click', newGame)
     $firstMove.on('click', firstMove)
     $lastMove.on('click',lastMove)
-
+    $flipBoard.on('click', flipBoard)
 }
+
+function flipBoard(){
+    if (config.orientation === 'white'){
+        config.orientation = 'black'
+    } else if (config.orientation === 'black'){
+        config.orientation = 'white'
+    }
+    Chessboard('board1', config);
+}
+
 
 // CHESS.COM ARCHIVE IMPORT FUNCTIONALITY
 
@@ -141,8 +157,7 @@ function loadGame(){
         const gameItem = $(this).text()
         const regex = /(\d+)\.\s(\d{4}\.\d{2})/;
         const match = gameItem.match(regex);
-        let extractedDate;
-        let index;
+        moveNotation = [];
 
         if (match) {
             const index = parseInt(match[1]);
@@ -157,6 +172,7 @@ function loadGame(){
             // initialize gameState and pass 'moves' in.
             gameState.load_pgn(moves)
             // Export final FEN state to chessboard.js
+            console.log(gameState.pgn())
             let gameMoves = movesToFenArray(parsePGNIntoMoves(gameState.pgn()))
             gameMoves.forEach(fen => {
                 moveOrder.push(fen)
@@ -182,9 +198,6 @@ function movesToFenArray(moves) {
     return fens;
 }
 
-
-console.log(moveOrder)
-
 function parsePGNIntoMoves(pgn) {
     // Splitting the string by spaces and filtering out empty strings
     let tokens = pgn.split(/\s+/).filter(token => token.trim() !== '');
@@ -200,31 +213,23 @@ function parsePGNIntoMoves(pgn) {
             
         }
     });
-    console.log(moveNotation)
-
 
     return moves;
 }
 
 
 function getGameList(date) {
-
     const userName = $("input[name='search']").val().trim();
     const $archiveName = $('#archiveName');
     const $gameList = $('#gameList');
-
     // Clear previous
     $archiveName.empty();
     $gameList.empty();
-
     const url = `https://api.chess.com/pub/player/${userName}/games/${date}/`;
-
     $.get(url, function(data) {
-       
-        data.games.forEach((game, index) => {
+       data.games.forEach((game, index) => {
             const dateRegex = /\[Date "(\d{4}\.\d{2}\.\d{2})"\]/;
             const match = game.pgn.match(dateRegex);
-
             let extractedDate;
             if (match) {
                 extractedDate = match[1];
@@ -237,8 +242,6 @@ function getGameList(date) {
     });
 }
 
-
-
 function getArchive(e){
     e.preventDefault();
     const userName = $("input[name='search']").val().trim()
@@ -248,13 +251,11 @@ function getArchive(e){
     //Clearing previous
     $archiveName.empty();
     $archiveList.empty();
-
     //Check if input is empty
     if (!userName){
         alert("Please enter a username before hitting submit");
         return;
     }
-
     const url = `https://api.chess.com/pub/player/${userName}/games/archives`
     $.get(url, function(data){
         data.archives.forEach((item) => {
