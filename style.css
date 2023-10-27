@@ -35,6 +35,7 @@
 
 
 #archiveContainer {
+    font-size: 18px;
     height: 100%;
     width: 40%;
     border: 5px solid blue;
@@ -44,26 +45,35 @@
 
 #input {
     width: 60%;
+    height: 18px;
+    font-size: 12px;
+    margin-bottom: 10px;
 }
 
+
 #scrollContainer {
+    
     box-sizing: border-box;
     display: column;
     flex-grow: 1;
     display: flex;
     border: 5px solid green;
+    overflow: hidden:
 }
 
 #archiveScroll{
+    background-color: whitesmoke;
     box-sizing: border-box;
-    height: 620px; 
+    height: 560px;
     width: 50%;   
     overflow-y: scroll;
     border: 1px solid green;
 }
 
 #gameScroll{
-    height: 620px; 
+    background-color: whitesmoke;
+    box-sizing: border-box;
+    height: 560px; 
     width: 50%;   
     overflow-y: scroll;
     border: 1px solid green;
@@ -73,6 +83,15 @@
    list-style-type: none;
 }
 
+.date-item:hover{
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.game-item:hover{
+    background-color: #ddd;
+    cursor: pointer;
+}
 
 
 #bottomContainer{
@@ -104,7 +123,7 @@
 
 #notationActual {
     box-sizing:border-box;
-    background: white;
+    background: whitesmoke;
     margin: auto;
     border: 4px solid black;
     height: 90%;
@@ -124,7 +143,7 @@
 .btn {
   background-color: DodgerBlue; /* Blue background */
   color: white; 
-  padding: 18px 32px; 
+  padding: 18px 20px; 
   font-size: 24px; 
   font-family:'Lucida Sans';
   cursor: pointer; 

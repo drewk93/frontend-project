@@ -17,6 +17,8 @@ TO DO
     - Allow user to drag pieces and cycle through moves of the game.
 */
 
+// SETTING VARIABLES TO PASS FUNCTION OUTPUT TO
+
 var config = {
     draggable: true,
     dropOffBoard: 'snapback',
@@ -27,8 +29,10 @@ var config = {
 let gameState = new Chess()
 const board = ChessBoard('board1', config)
 let moveOrder = ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR']
+let moveNotation = []
 let moveOrderIndex = 0;
 
+// SETTING BOARD MOVE FUNCTIONALITY
 
 function onChange (oldPos, newPos) {
   // make Chess.js current FEN equal to Chessboard.js FEN
@@ -38,49 +42,30 @@ function onChange (oldPos, newPos) {
   moveOrderIndex++
 }
 
-
-$(document).ready(function() {
-    loadEventListeners()
-});
-
-function loadEventListeners(){
-const $input = $('input');
-const $submit = $('#submit');
-const $archiveList = $("#archiveList");
-const $gameList = $("#gameList");
-const $prevBtn = $("#prevBtn");
-const $nextBtn = $("#nextBtn");
-const $newGame = $("#newGame");
-    $submit.on('click', getArchive)
-   
-    $archiveList.on('click', '.date-item', function() {
-        const dateItem = $(this).text();
-        getGameList(dateItem);
-    });
-
-    $gameList.on('click','.game-item',loadGame)
-    $prevBtn.on('click',goBack)
-    $nextBtn.on('click',goForward)
-    $newGame.on('click', newGame)
-
-}
-
 function goBack() {
+    $notationActual = $('#notationActual')
     moveOrderIndex--
     let prevMove = moveOrder[moveOrderIndex];
     if (prevMove.length === 0){
         return;
     }
-    console.log(prevMove)
+    if(moveNotation.length !== 0){
+    $notationActual[0].lastElementChild.remove()
+    }
+   
     config.position = (prevMove)
     Chessboard('board1',config)
 }
 
 function goForward(){
+    $notationActual = $('#notationActual')
     moveOrderIndex++
     let nextMove = moveOrder[moveOrderIndex];
     if (nextMove === undefined){
         return;
+    }
+    if(moveNotation.length !== 0){
+        $notationActual.append(`<b>${moveOrderIndex}. ${moveNotation[moveOrderIndex]}</b> `);
     }
     config.position = (nextMove)
     Chessboard('board1',config)
@@ -93,7 +78,55 @@ function newGame(){
     Chessboard('board1', config)
 }
 
+function firstMove(){
+    while (moveOrderIndex > 0){
+        goBack()
+    }
+}
 
+function lastMove(){
+    while (moveOrderIndex < moveOrder.length-1){
+        goForward()
+    }
+}
+
+
+$(document).ready(function() {
+    loadEventListeners()
+});
+
+// LOAD EVENT LISTENERS FOR HTML ELEMENTS
+
+function loadEventListeners(){
+const $input = $('input');
+const $submit = $('#submit');
+const $archiveList = $("#archiveList");
+const $gameList = $("#gameList");
+const $prevBtn = $("#prevBtn");
+const $nextBtn = $("#nextBtn");
+const $newGame = $("#newGame");
+const $firstMove = $("#firstMove");
+const $lastMove = $("#lastMove");
+
+    $submit.on('click', getArchive)
+    $archiveList.on('click', '.date-item', function() {
+        const dateItem = $(this).text();
+        getGameList(dateItem);
+    });
+
+    $gameList.on('click','.game-item',loadGame)
+    $prevBtn.on('click',goBack)
+    $nextBtn.on('click',goForward)
+    $newGame.on('click', newGame)
+    $firstMove.on('click', firstMove)
+    $lastMove.on('click',lastMove)
+
+}
+
+// CHESS.COM ARCHIVE IMPORT FUNCTIONALITY
+
+
+// Function for parsing over entire PGN index and extracting initial move index.
 function extractMoves(pgn) {
     const lines = pgn.trim().split('\n');
     const movesLine = lines.filter(line => line.trim() !== '' && !line.startsWith('[')).pop();
@@ -122,21 +155,16 @@ function loadGame(){
             // extract the move order PGN
             const moves = extractMoves(pgn)
             // initialize gameState and pass 'moves' in.
-            console.log(gameState.fen())
             gameState.load_pgn(moves)
             // Export final FEN state to chessboard.js
             let gameMoves = movesToFenArray(parsePGNIntoMoves(gameState.pgn()))
             gameMoves.forEach(fen => {
                 moveOrder.push(fen)
             })
-
             // Set board position to initial starting position
             config.position = moveOrder[0]
-            ChessBoard('board1', config)
-            
-            
-              
-           
+
+            ChessBoard('board1', config)         
         })
         }            
 }
@@ -168,8 +196,13 @@ function parsePGNIntoMoves(pgn) {
         // Filtering out move numbers (e.g., '1.', '2.', etc.)
         if (!token.includes('.')) {
             moves.push(token);
+            moveNotation.push(token)
+            
         }
     });
+    console.log(moveNotation)
+
+
     return moves;
 }
 
