@@ -23,7 +23,6 @@ var config = {
     draggable: true,
     dropOffBoard: 'snapback',
     onChange: onChange,
-    orientation: 'white'
     // onDragStart: onDragStart
 }
 
@@ -115,6 +114,12 @@ const $firstMove = $("#firstMove");
 const $lastMove = $("#lastMove");
 const $flipBoard = $("#flipBoard")
     $submit.on('click', getArchive)
+    $input.on('keydown', function(e){
+        if(e.which === 13){
+            e.preventDefault();
+            getArchive()
+        }
+    })
     $archiveList.on('click', '.date-item', function() {
         const dateItem = $(this).text();
         getGameList(dateItem);
@@ -126,17 +131,20 @@ const $flipBoard = $("#flipBoard")
     $newGame.on('click', newGame)
     $firstMove.on('click', firstMove)
     $lastMove.on('click',lastMove)
-    $flipBoard.on('click', flipBoard)
+    // $flipBoard.on('click', flipBoard)
 }
 
-function flipBoard(){
-    if (config.orientation === 'white'){
-        config.orientation = 'black'
-    } else if (config.orientation === 'black'){
-        config.orientation = 'white'
-    }
-    Chessboard('board1', config);
-}
+// CURRENTLY DEBUGGING AS OF COMMIT 12
+// function flipBoard(){
+//     if (config.orientation === 'white'){
+//         config.orientation = 'black'
+//     } 
+    
+//     if (config.orientation === 'black'){
+//         config.orientation = 'white'
+//     }
+//     Chessboard('board1', config);
+// }
 
 
 // CHESS.COM ARCHIVE IMPORT FUNCTIONALITY
@@ -179,11 +187,12 @@ function loadGame(){
             })
             // Set board position to initial starting position
             config.position = moveOrder[0]
-
-            ChessBoard('board1', config)         
+            ChessBoard('board1', config)   
+            alert("Game Loaded. Enjoy!")  
         })
         }            
 }
+
 
 function movesToFenArray(moves) {
     var game = new Chess();
@@ -243,7 +252,6 @@ function getGameList(date) {
 }
 
 function getArchive(e){
-    e.preventDefault();
     const userName = $("input[name='search']").val().trim()
     const $archiveName = $('#archiveName')
     const $archiveList = $("#archiveList")
